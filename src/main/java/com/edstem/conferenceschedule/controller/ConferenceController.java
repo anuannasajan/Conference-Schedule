@@ -85,6 +85,7 @@ public class ConferenceController {
         return ResponseEntity.ok(response);
     }
 
+
     @GetMapping("/schedule/view-all/{conferenceId}")
     public ResponseEntity<List<ScheduleResponse>> listAllSchedulesByConferenceId(@PathVariable Long conferenceId) {
         List<ScheduleResponse> responseList = conferenceService.listAllSchedulesByConferenceId(conferenceId);
@@ -102,6 +103,13 @@ public class ConferenceController {
                                                        @Valid @RequestBody ConferenceRequest conferenceRequest) {
         String response = conferenceService.updateConferenceById(conferenceId, conferenceRequest);
         return ResponseEntity.ok(response);
+    }
+    @GetMapping("/schedule/view-speaker/{conferenceId}/{scheduleId}")
+    public ResponseEntity<SpeakerResponse> getSpeakerOfASchedule(@PathVariable Long conferenceId, @PathVariable Long scheduleId){
+        SpeakerResponse response = speakerService.getSpeakerOfASchedule(conferenceId, scheduleId);
+        return ResponseEntity.
+                ok
+                        (response);
     }
 }
 

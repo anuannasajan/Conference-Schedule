@@ -11,6 +11,16 @@ public class ConferenceScheduleApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConferenceScheduleApplication.class, args);
+	}
 
+	@Bean
+	public ModelMapper modelMapper() {
+		ModelMapper mapper = new ModelMapper();
+		mapper.getConfiguration()
+				.setFieldMatchingEnabled(true)
+				.setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
+		return mapper;
 	}
 }
+
+

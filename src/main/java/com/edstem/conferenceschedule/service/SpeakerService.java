@@ -4,6 +4,7 @@ import com.edstem.conferenceschedule.contract.SpeakerRequest;
 import com.edstem.conferenceschedule.contract.SpeakerResponse;
 import com.edstem.conferenceschedule.exception.ConferenceNotFoundException;
 import com.edstem.conferenceschedule.exception.ScheduleNotFoundException;
+import com.edstem.conferenceschedule.exception.SpeakerNotFoundException;
 import com.edstem.conferenceschedule.model.Conference;
 import com.edstem.conferenceschedule.model.Schedule;
 import com.edstem.conferenceschedule.model.Speaker;
@@ -50,6 +51,26 @@ public class SpeakerService {
                 .id(savedSpeaker.getId())
                 .name(savedSpeaker.getName())
                 .bio(savedSpeaker.getBio())
+                .build();
+    }
+    public SpeakerResponse getSpeakerOfASchedule(Long conferenceId, Long scheduleId) {
+        Conference conference = conferenceRepository.findById(conferenceId)
+                .orElseThrow(()->new ConferenceNotFoundException("Conference not found"));
+        Schedule scheduleFound = conference.getSchedules().stream().filter(schedule ->
+                schedule.getId().equals(scheduleId)).findFirst().orElse(null);
+        if (scheduleFound == null){
+            throw new ScheduleNotFoundException("Schedule not found");
+        }
+        Speaker speakerFound = scheduleFound.getSpeaker() != null ? scheduleFound.getSpeaker() : null;
+        if(speakerFound == null){
+            throw new SpeakerNotFoundException("Speaker not found");
+        }
+        return SpeakerResponse.
+                builder
+                        ()
+                .id(speakerFound.getId())
+                .name(speakerFound.getName())
+                .bio(speakerFound.getBio())
                 .build();
     }
 
