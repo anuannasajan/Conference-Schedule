@@ -12,6 +12,7 @@ import com.edstem.conferenceschedule.service.SpeakerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/conferences")
+@CrossOrigin(origins = "*")
 public class ConferenceController {
     public final ConferenceService conferenceService;
     public final ScheduleService scheduleService;
@@ -104,12 +106,15 @@ public class ConferenceController {
         String response = conferenceService.updateConferenceById(conferenceId, conferenceRequest);
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/schedule/view-speaker/{conferenceId}/{scheduleId}")
-    public ResponseEntity<SpeakerResponse> getSpeakerOfASchedule(@PathVariable Long conferenceId, @PathVariable Long scheduleId){
+    public ResponseEntity<SpeakerResponse> getSpeakerOfASchedule(@PathVariable Long conferenceId, @PathVariable Long scheduleId) {
         SpeakerResponse response = speakerService.getSpeakerOfASchedule(conferenceId, scheduleId);
-        return ResponseEntity.
-                ok
-                        (response);
+        return ResponseEntity.ok(response);
     }
 }
+
+
+
+
 
