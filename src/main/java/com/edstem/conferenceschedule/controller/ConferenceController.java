@@ -72,7 +72,7 @@ public class ConferenceController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/speaker/{conferenceId}/{scheduleId}")
+    @DeleteMapping("/speaker/{conferenceId}/{scheduleId}")
     public ResponseEntity<String> removeSpeakerFromConferenceScheduleById
             (@PathVariable Long conferenceId, @PathVariable Long scheduleId) {
         String response =
@@ -95,7 +95,7 @@ public class ConferenceController {
     }
 
     @GetMapping("/list-all")
-    public ResponseEntity<List<ConferenceResponse>> listAllConferences() {
+    public ResponseEntity<List<ConferenceResponse>> listAllConference() {
         List<ConferenceResponse> response = conferenceService.listAllConferences();
         return ResponseEntity.ok(response);
     }

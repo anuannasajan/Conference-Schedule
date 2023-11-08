@@ -37,45 +37,35 @@ public class ConferenceControllerTest {
     public ScheduleService scheduleService;
     @MockBean
     public SpeakerService speakerService;
+
     @Test
     public void testAddANewConference() throws Exception {
         ConferenceRequest conferenceRequest = new ConferenceRequest();
         conferenceRequest.setName("Test Conference");
         conferenceRequest.setDescription("A test conference");
         conferenceRequest.setLocation("Test Location");
-        conferenceRequest.setFoodOptions(List.
-                of
-                        ("Vegan", "Gluten-free"));
-        conferenceRequest.setHotelOptions(List.
-                of
-                        ("Hotel A", "Hotel B"));
+        conferenceRequest.setFoodOptions(List.of("Vegan", "Gluten-free"));
+        conferenceRequest.setHotelOptions(List.of("Hotel A", "Hotel B"));
+
         conferenceRequest.setCodeOfConduct("Test Code of Conduct");
         ConferenceResponse response = new ConferenceResponse();
         response.setId(1L);
         response.setName("Test Conference");
         response.setDescription("A test conference");
         response.setLocation("Test Location");
-        response.setFoodOptions(List.
-                of
-                        ("Vegan", "Gluten-free"));
-        response.setHotelOptions(List.
-                of
-                        ("Hotel A", "Hotel B"));
+        response.setFoodOptions(List.of("Vegan", "Gluten-free"));
+
+        response.setHotelOptions(List.of("Hotel A", "Hotel B"));
+
         response.setCodeOfConduct("Test Code of Conduct");
 
         when
                 (conferenceService.addANewConference(conferenceRequest)).thenReturn(response);
-        mockMvc.perform(
-                        post
-                                ("/conferences")
-                                .contentType(MediaType.
-                                        APPLICATION_JSON
-                                )
-                                .content(new ObjectMapper().writeValueAsString(conferenceRequest)))
-                .andExpect(
-                        status
-                                ().isOk());
+        mockMvc.perform(post("/conferences").contentType(MediaType.APPLICATION_JSON)
+
+                .content(new ObjectMapper().writeValueAsString(conferenceRequest))).andExpect(status().isOk());
     }
+
     @Test
     public void testAddScheduleToAConference() throws Exception {
         ScheduleRequest scheduleRequest = new ScheduleRequest();
@@ -86,20 +76,16 @@ public class ConferenceControllerTest {
 
         when
                 (scheduleService.addScheduleToAConference(1L, scheduleRequest)).thenReturn(response);
-        mockMvc.perform(
-                        post
-                                ("/conferences/schedule/1")
-                                .content(new ObjectMapper().writeValueAsString(scheduleRequest))
-                                .contentType("application/json"))
-                .andExpect(
-                        status
-                                ().isOk());
+        mockMvc.perform(post("/conferences/schedule/1")
+
+                .content(new ObjectMapper().writeValueAsString(scheduleRequest))
+                .contentType("application/json")).andExpect(status().isOk());
     }
+
     @Test
     public void testAddSpeakerToAConferenceSchedule() throws Exception {
         SpeakerRequest speakerRequest = SpeakerRequest.
-                builder
-                        ()
+                builder()
                 .name("test")
                 .bio("bio")
                 .build();
@@ -114,6 +100,7 @@ public class ConferenceControllerTest {
                         .contentType("application/json"))
                 .andExpect(status().isOk());
     }
+
     @Test
     public void testGetConferenceById() throws Exception {
         ConferenceResponse conferenceResponse = ConferenceResponse.builder()
@@ -125,6 +112,6 @@ public class ConferenceControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/conferences/1"))
                 .andExpect(status().isOk());
     }
-
 }
+
 
