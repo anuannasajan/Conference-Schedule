@@ -11,21 +11,22 @@ import com.edstem.conferenceschedule.model.Speaker;
 import com.edstem.conferenceschedule.repository.ConferenceRepository;
 import com.edstem.conferenceschedule.repository.ScheduleRepository;
 import com.edstem.conferenceschedule.repository.SpeakerRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
+@RequiredArgsConstructor
 public class SpeakerService {
     public final ConferenceRepository conferenceRepository;
     public final ScheduleRepository scheduleRepository;
-    public SpeakerRepository speakerRepository;
-    @Autowired
-    public SpeakerService(ConferenceRepository conferenceRepository,
-                          ScheduleRepository scheduleRepository, SpeakerRepository speakerRepository){
-        this.conferenceRepository = conferenceRepository;
-        this.scheduleRepository = scheduleRepository;
-        this.speakerRepository = speakerRepository;
-    }
+    public final SpeakerRepository speakerRepository;
+    public final ModelMapper modelMapper;
+
     public SpeakerResponse addSpeakerToAConferenceSchedule
             (Long conferenceId, Long scheduleId, SpeakerRequest speakerRequest) {
         Conference conference = conferenceRepository.findById(conferenceId)
@@ -72,6 +73,12 @@ public class SpeakerService {
                 .name(speakerFound.getName())
                 .bio(speakerFound.getBio())
                 .build();
+    }
+    public List<SpeakerResponse> viewAllSpeakers(){
+        List<Speaker> SpeakerList = speakerRepository.findAll();
+        return SpeakerList.stream()
+                .map(user -> modelMapper.map(user, SpeakerResponse.class))
+                .collect(Collectors.toList());
     }
 
 }

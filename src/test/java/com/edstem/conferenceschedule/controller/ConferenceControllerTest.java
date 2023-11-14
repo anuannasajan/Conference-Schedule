@@ -74,7 +74,7 @@ public class ConferenceControllerTest {
     public void testAddScheduleToAConference() throws Exception {
         ScheduleRequest scheduleRequest = new ScheduleRequest();
         scheduleRequest.setTalk("Test Talk");
-        ScheduleResponse response = new ScheduleResponse();
+        ScheduleResponse response = new  ScheduleResponse();
         response.setId(1L);
         response.setTalk("Test Talk");
 
@@ -87,7 +87,7 @@ public class ConferenceControllerTest {
     }
 
     @Test
-    public void testAddSpeakerToAConferenceSchedule() throws Exception {
+    public void testAddSpeakerToAConferenceSchedule()throws Exception {
         SpeakerRequest speakerRequest = SpeakerRequest.
                 builder()
                 .name("test")
