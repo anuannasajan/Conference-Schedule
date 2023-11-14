@@ -25,8 +25,8 @@ public class Conference {
     private Long id;
     private String name;
     private String description;
-    private LocalDate startDate = LocalDate.now();
-    private LocalTime startTime = LocalTime.now();
+    private LocalDate startDate;
+    private LocalTime startTime;
     private LocalDate endDate;
     private LocalTime endTime;
     private String location;
