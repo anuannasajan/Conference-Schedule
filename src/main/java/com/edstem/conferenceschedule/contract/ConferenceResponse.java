@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -18,7 +19,8 @@ public class ConferenceResponse {
     private Long id;
     private String name;
     private String description;
-    private LocalDate date;
+    private LocalDate endDate;
+    private LocalTime endTime;
     private String location;
     private List<String> foodOptions;
     private List<String> hotelOptions;

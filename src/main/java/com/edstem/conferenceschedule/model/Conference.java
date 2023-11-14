@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -24,7 +25,10 @@ public class Conference {
     private Long id;
     private String name;
     private String description;
-    private LocalDate date;
+    private LocalDate startDate = LocalDate.now();
+    private LocalTime startTime = LocalTime.now();
+    private LocalDate endDate;
+    private LocalTime endTime;
     private String location;
     private List<String> foodOptions;
     private List<String> hotelOptions;

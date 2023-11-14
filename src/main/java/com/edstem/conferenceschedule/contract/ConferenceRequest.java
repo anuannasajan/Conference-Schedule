@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -22,7 +23,8 @@ public class ConferenceRequest {
     private String name;
 
     private String description;
-    private LocalDate date;
+    private LocalDate endDate;
+    private LocalTime endTime;
 
     //@NotNull(message = "Conference location is mandatory")
     @NotEmpty(message = "Conference location should not be empty")

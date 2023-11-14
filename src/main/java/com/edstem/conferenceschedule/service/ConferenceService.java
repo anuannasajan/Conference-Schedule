@@ -13,55 +13,39 @@ import com.edstem.conferenceschedule.model.Speaker;
 import com.edstem.conferenceschedule.repository.ConferenceRepository;
 import com.edstem.conferenceschedule.repository.ScheduleRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ConferenceService {
-    public ConferenceRepository conferenceRepository;
-    public final ScheduleRepository scheduleRepository;
-    @Autowired
-    public ConferenceService(ConferenceRepository conferenceRepository, ScheduleRepository scheduleRepository){
-        this.conferenceRepository = conferenceRepository;
-        this.scheduleRepository = scheduleRepository;
-    }
+    private final ConferenceRepository conferenceRepository;
+    private final ScheduleRepository scheduleRepository;
+    private final ModelMapper modelMapper;
+
+
     public ConferenceResponse addANewConference(ConferenceRequest conferenceRequest) {
-        List<String> reqFoodOptions = conferenceRequest.getFoodOptions().stream().toList();
-        List<String> reqHotelOptions = conferenceRequest.getHotelOptions().stream().toList();
-        Conference conference = Conference.builder()
-                .name(conferenceRequest.getName())
-                .description(conferenceRequest.getDescription())
-                .date(conferenceRequest.getDate())
-                .location(conferenceRequest.getLocation())
-                .foodOptions(reqFoodOptions)
-                .hotelOptions(reqHotelOptions)
-                .codeOfConduct(conferenceRequest.getCodeOfConduct())
-                .build();
+        Conference conference = modelMapper.map(conferenceRequest, Conference.class);
+
         Conference saved = conferenceRepository.save(conference);
 
-        return ConferenceResponse.builder()
-                .id(saved.getId())
-                .name(saved.getName())
-                .description(saved.getDescription())
-                .date(saved.getDate())
-                .location(saved.getLocation())
-                .foodOptions(saved.getFoodOptions().stream().toList())
-                .hotelOptions(saved.getHotelOptions().stream().toList())
-                .codeOfConduct(saved.getCodeOfConduct())
-                .schedules(null)
-                .build();
+        ConferenceResponse response = modelMapper.map(saved, ConferenceResponse.class);
+
+        return response;
     }
+
+
     public ConferenceResponse getConferenceById(Long conferenceId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(()-> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
         return ConferenceResponse.builder()
                 .id(conference.getId())
                 .name(conference.getName())
                 .description(conference.getDescription())
-                .date(conference.getDate())
                 .location(conference.getLocation())
                 .foodOptions(conference.getFoodOptions())
                 .hotelOptions(conference.getHotelOptions())
@@ -83,20 +67,21 @@ public class ConferenceService {
 
     public String deleteAConferenceById(Long conferenceId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(()-> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
         conferenceRepository.delete(conference);
 
         return "Successfully deleted the conference with ID " + conferenceId;
     }
+
     public String removeSpeakerFromConferenceScheduleById(Long conferenceId, Long scheduleId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(()-> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
 
         Schedule speakerToRemoveSchedule = conference.getSchedules().stream().filter(schedule -> schedule.getId().equals(scheduleId))
                 .findFirst()
                 .orElse(null);
 
-        if(speakerToRemoveSchedule == null){
+        if (speakerToRemoveSchedule == null) {
             throw new EntityNotFoundException("Speaker not found to remove");
         }
         Speaker speakerToRemove = speakerToRemoveSchedule.getSpeaker();
@@ -111,14 +96,15 @@ public class ConferenceService {
 
         return "Successfully removed the speaker with ID " + speakerToRemove.getId() + "from schedule.";
     }
+
     public String updateScheduleById(Long conferenceId, Long scheduleId, ScheduleRequest scheduleRequest) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(()-> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
 
         Schedule schedule = conference.getSchedules().stream().filter(s -> s.getId().equals(scheduleId))
                 .findFirst()
                 .orElse(null);
-        if (schedule == null){
+        if (schedule == null) {
             throw new ScheduleNotFoundException("Schedule not found");
         }
         Schedule updated = Schedule.builder()
@@ -131,9 +117,10 @@ public class ConferenceService {
         conferenceRepository.save(conference);
         return "Successfully updated the schedule with ID " + saved.getId();
     }
+
     public List<ScheduleResponse> listAllSchedulesByConferenceId(Long conferenceId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(()-> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
 
         List<ScheduleResponse> responseList = conference.getSchedules().stream()
                 .map(schedule -> ScheduleResponse.builder()
@@ -152,6 +139,7 @@ public class ConferenceService {
 
         return responseList;
     }
+
     public List<ConferenceResponse> listAllConferences() {
         List<Conference> conferenceList = conferenceRepository.findAll();
 
@@ -159,7 +147,7 @@ public class ConferenceService {
                 .id(conference.getId())
                 .name(conference.getName())
                 .description(conference.getDescription())
-                .date(conference.getDate())
+//                .date(conference.getDate())
                 .location(conference.getLocation())
                 .foodOptions(conference.getFoodOptions())
                 .hotelOptions(conference.getHotelOptions())
@@ -173,21 +161,22 @@ public class ConferenceService {
                                         .id(schedule.getSpeaker().getId())
                                         .name(schedule.getSpeaker().getName())
                                         .bio(schedule.getSpeaker().getBio())
-                                        .build():null)
+                                        .build() : null)
                                 .build())
                         .collect(Collectors.toList())
-                        :null)
+                        : null)
                 .build()).collect(Collectors.toList());
     }
+
     public String updateConferenceById(Long conferenceId, ConferenceRequest conferenceRequest) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(()-> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
 
         Conference updated = Conference.builder()
                 .id(conference.getId())
                 .name(conferenceRequest.getName())
                 .description(conferenceRequest.getDescription())
-                .date(conferenceRequest.getDate())
+//                .date(conferenceRequest.getDate())
                 .location(conferenceRequest.getLocation())
                 .foodOptions(conferenceRequest.getFoodOptions().stream().toList())
                 .hotelOptions(conferenceRequest.getHotelOptions().stream().toList())
