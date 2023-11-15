@@ -97,7 +97,7 @@ public class ConferenceController {
 
     @GetMapping("/list-all")
     public ResponseEntity<List<ConferenceResponse>> listAllConference() {
-        List<ConferenceResponse> response = conferenceService.listAllConferences();
+        List<ConferenceResponse> response = conferenceService.getAllConferences();
         return ResponseEntity.ok(response);
     }
 

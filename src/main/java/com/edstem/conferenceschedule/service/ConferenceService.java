@@ -30,11 +30,8 @@ public class ConferenceService {
 
     public ConferenceResponse addANewConference(ConferenceRequest conferenceRequest) {
         Conference conference = modelMapper.map(conferenceRequest, Conference.class);
-
         Conference saved = conferenceRepository.save(conference);
-
         ConferenceResponse response = modelMapper.map(saved, ConferenceResponse.class);
-
         return response;
     }
 
@@ -140,33 +137,12 @@ public class ConferenceService {
         return responseList;
     }
 
-    public List<ConferenceResponse> listAllConferences() {
-        List<Conference> conferenceList = conferenceRepository.findAll();
+public List<ConferenceResponse> getAllConferences() {
+    return conferenceRepository.findAll().stream()
+            .map(conference -> modelMapper.map(conference, ConferenceResponse.class))
+            .collect(Collectors.toList());
+}
 
-        return conferenceList.stream().map(conference -> ConferenceResponse.builder()
-                .id(conference.getId())
-                .name(conference.getName())
-                .description(conference.getDescription())
-//                .date(conference.getDate())
-                .location(conference.getLocation())
-                .foodOptions(conference.getFoodOptions())
-                .hotelOptions(conference.getHotelOptions())
-                .codeOfConduct(conference.getCodeOfConduct())
-                .schedules(conference.getSchedules() != null ? conference.getSchedules()
-                        .stream().map(schedule -> ScheduleResponse.builder()
-                                .id(schedule.getId())
-                                .time(schedule.getTime())
-                                .talk(schedule.getTalk())
-                                .speaker(schedule.getSpeaker() != null ? SpeakerResponse.builder()
-                                        .id(schedule.getSpeaker().getId())
-                                        .name(schedule.getSpeaker().getName())
-                                        .bio(schedule.getSpeaker().getBio())
-                                        .build() : null)
-                                .build())
-                        .collect(Collectors.toList())
-                        : null)
-                .build()).collect(Collectors.toList());
-    }
 
     public String updateConferenceById(Long conferenceId, ConferenceRequest conferenceRequest) {
         Conference conference = conferenceRepository.findById(conferenceId)
