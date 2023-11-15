@@ -1,5 +1,6 @@
 package com.edstem.conferenceschedule.contract;
 
+import com.edstem.conferenceschedule.model.Schedule;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,10 +32,6 @@ public class ConferenceRequest {
     //@NotNull(message = "Conference location is mandatory")
     @NotEmpty(message = "Conference location should not be empty")
     private String location;
-
-    private List<String> foodOptions;
-    private List<String> hotelOptions;
-    private String codeOfConduct;
 }
 
 

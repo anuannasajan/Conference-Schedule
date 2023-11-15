@@ -17,7 +17,6 @@ import java.time.LocalTime;
 public class ScheduleRequest {
     @NotEmpty(message = "Talk is mandatory")
     private String talk;
-
     private LocalTime time;
 }
 

@@ -43,22 +43,11 @@ public class ConferenceService {
                 .id(conference.getId())
                 .name(conference.getName())
                 .description(conference.getDescription())
+                .startDate(conference.getStartDate())
+                .startTime(conference.getStartTime())
+                .endDate(conference.getEndDate())
+                .endTime(conference.getEndTime())
                 .location(conference.getLocation())
-                .foodOptions(conference.getFoodOptions())
-                .hotelOptions(conference.getHotelOptions())
-                .codeOfConduct(conference.getCodeOfConduct())
-                .schedules(conference.getSchedules().stream().map(schedule ->
-                        ScheduleResponse.builder()
-                                .id(schedule.getId())
-                                .time(schedule.getTime())
-                                .talk(schedule.getTalk())
-                                .speaker(schedule.getSpeaker() != null ? SpeakerResponse.builder()
-                                        .id(schedule.getSpeaker().getId())
-                                        .name(schedule.getSpeaker().getName())
-                                        .bio(schedule.getSpeaker().getBio())
-                                        .build()
-                                        : null)
-                                .build()).collect(Collectors.toList()))
                 .build();
     }
 
@@ -152,11 +141,11 @@ public List<ConferenceResponse> getAllConferences() {
                 .id(conference.getId())
                 .name(conferenceRequest.getName())
                 .description(conferenceRequest.getDescription())
-//                .date(conferenceRequest.getDate())
+                .startDate(conferenceRequest.getStartDate())
+                .startTime(conferenceRequest.getStartTime())
+                .endDate(conferenceRequest.getEndDate())
+                .endTime(conferenceRequest.getEndTime())
                 .location(conferenceRequest.getLocation())
-                .foodOptions(conferenceRequest.getFoodOptions().stream().toList())
-                .hotelOptions(conferenceRequest.getHotelOptions().stream().toList())
-                .codeOfConduct(conferenceRequest.getCodeOfConduct())
                 .schedules(conference.getSchedules())
                 .build();
         Conference saved = conferenceRepository.save(updated);

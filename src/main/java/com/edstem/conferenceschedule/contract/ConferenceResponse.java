@@ -24,9 +24,5 @@ public class ConferenceResponse {
     private LocalDate endDate;
     private LocalTime endTime;
     private String location;
-    private List<String> foodOptions;
-    private List<String> hotelOptions;
-    private String codeOfConduct;
-    private List<ScheduleResponse> schedules;
 }
 
