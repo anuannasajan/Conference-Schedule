@@ -18,7 +18,8 @@ public class ScheduleResponse {
     private Long id;
     private LocalTime time;
     private String talk;
-    private SpeakerResponse speaker;
+    private String name;
+    private String bio;
 }
 
 

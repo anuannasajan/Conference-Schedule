@@ -18,5 +18,7 @@ public class ScheduleRequest {
     @NotEmpty(message = "Talk is mandatory")
     private String talk;
     private LocalTime time;
+    private String name;
+    private String bio;
 }
 

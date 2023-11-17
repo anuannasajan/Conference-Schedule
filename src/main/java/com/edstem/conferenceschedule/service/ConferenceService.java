@@ -112,21 +112,18 @@ public class ConferenceService {
                 .map(schedule -> ScheduleResponse.builder()
                         .id(schedule.getId())
                         .talk(schedule.getTalk())
+                        .name(schedule.getName())
+                        .bio(schedule.getBio())
                         .time(schedule.getTime())
-                        .speaker(schedule.getSpeaker() != null ?
-                                SpeakerResponse.builder()
-                                        .id(schedule.getSpeaker().getId())
-                                        .name(schedule.getSpeaker().getName())
-                                        .bio(schedule.getSpeaker().getBio())
-                                        .build()
-                                : null)
                         .build())
                 .collect(Collectors.toList());
 
         return responseList;
+
     }
 
-public List<ConferenceResponse> getAllConferences() {
+
+    public List<ConferenceResponse> getAllConferences() {
     return conferenceRepository.findAll().stream()
             .map(conference -> modelMapper.map(conference, ConferenceResponse.class))
             .collect(Collectors.toList());

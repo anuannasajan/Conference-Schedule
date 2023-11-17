@@ -24,6 +24,8 @@ public class Schedule {
     private Long id;
     private LocalTime time;
     private String talk;
+    private String name;
+    private String bio;
     @ManyToOne
     @JoinColumn(name = "speaker_id")
     private Speaker speaker;

@@ -26,6 +26,8 @@ public class ScheduleService {
         Schedule schedule = Schedule.builder()
                 .talk(scheduleRequest.getTalk())
                 .time(scheduleRequest.getTime())
+                .name(scheduleRequest.getName())
+                .bio(scheduleRequest.getBio())
                 .build();
         Schedule savedSchedule = scheduleRepository.save(schedule);
         conference.getSchedules().add(savedSchedule);
@@ -34,7 +36,8 @@ public class ScheduleService {
                 .id(savedSchedule.getId())
                 .talk(savedSchedule.getTalk())
                 .time(savedSchedule.getTime())
-                .speaker(null)
+                .name(savedSchedule.getName())
+                .bio(savedSchedule.getBio())
                 .build();
     }
 }
