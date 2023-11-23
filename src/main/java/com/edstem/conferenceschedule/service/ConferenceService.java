@@ -98,7 +98,8 @@ public class ConferenceService {
                 .talk(scheduleRequest.getTalk())
                 .time(scheduleRequest.getTime())
                 .duration(scheduleRequest.getDuration())
-                .speaker(schedule.getSpeaker())
+                .name(schedule.getName())
+                .bio(schedule.getBio())
                 .build();
         Schedule saved = scheduleRepository.save(updated);
         conferenceRepository.save(conference);
