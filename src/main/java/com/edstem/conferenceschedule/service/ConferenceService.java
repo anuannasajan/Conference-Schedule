@@ -114,6 +114,7 @@ public class ConferenceService {
                         .talk(schedule.getTalk())
                         .name(schedule.getName())
                         .bio(schedule.getBio())
+                        .duration(schedule.getDuration())
                         .time(schedule.getTime())
                         .build())
                 .collect(Collectors.toList());

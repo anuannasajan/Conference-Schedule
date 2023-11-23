@@ -48,20 +48,17 @@ public class ConferenceControllerTest {
         conferenceRequest.setName("Test Conference");
         conferenceRequest.setDescription("A test conference");
         conferenceRequest.setLocation("Test Location");
-        conferenceRequest.setFoodOptions(List.of("Vegan", "Gluten-free"));
-        conferenceRequest.setHotelOptions(List.of("Hotel A", "Hotel B"));
 
-        conferenceRequest.setCodeOfConduct("Test Code of Conduct");
+
+
         ConferenceResponse response = new ConferenceResponse();
         response.setId(1L);
         response.setName("Test Conference");
         response.setDescription("A test conference");
         response.setLocation("Test Location");
-        response.setFoodOptions(List.of("Vegan", "Gluten-free"));
 
-        response.setHotelOptions(List.of("Hotel A", "Hotel B"));
 
-        response.setCodeOfConduct("Test Code of Conduct");
+
 
         when
                 (conferenceService.addANewConference(conferenceRequest)).thenReturn(response);

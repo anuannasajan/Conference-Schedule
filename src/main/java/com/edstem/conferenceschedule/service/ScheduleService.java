@@ -26,6 +26,7 @@ public class ScheduleService {
         Schedule schedule = Schedule.builder()
                 .talk(scheduleRequest.getTalk())
                 .time(scheduleRequest.getTime())
+                .duration(scheduleRequest.getDuration())
                 .name(scheduleRequest.getName())
                 .bio(scheduleRequest.getBio())
                 .build();
@@ -36,6 +37,7 @@ public class ScheduleService {
                 .id(savedSchedule.getId())
                 .talk(savedSchedule.getTalk())
                 .time(savedSchedule.getTime())
+                .duration(savedSchedule.getDuration())
                 .name(savedSchedule.getName())
                 .bio(savedSchedule.getBio())
                 .build();
