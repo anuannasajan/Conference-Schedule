@@ -99,6 +99,7 @@ public class ConferenceService {
                 .time(scheduleRequest.getTime())
                 .duration(scheduleRequest.getDuration())
                 .name(schedule.getName())
+                .day(schedule.getDay())
                 .bio(schedule.getBio())
                 .build();
         Schedule saved = scheduleRepository.save(updated);
@@ -117,6 +118,7 @@ public class ConferenceService {
                         .name(schedule.getName())
                         .bio(schedule.getBio())
                         .duration(schedule.getDuration())
+                        .day(schedule.getDay())
                         .time(schedule.getTime())
                         .build())
                 .collect(Collectors.toList());

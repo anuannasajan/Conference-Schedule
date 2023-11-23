@@ -28,6 +28,7 @@ public class ScheduleService {
                 .time(scheduleRequest.getTime())
                 .duration(scheduleRequest.getDuration())
                 .name(scheduleRequest.getName())
+                .day(scheduleRequest.getDay())
                 .bio(scheduleRequest.getBio())
                 .build();
         Schedule savedSchedule = scheduleRepository.save(schedule);
@@ -37,6 +38,7 @@ public class ScheduleService {
                 .id(savedSchedule.getId())
                 .talk(savedSchedule.getTalk())
                 .time(savedSchedule.getTime())
+                .day(savedSchedule.getDay())
                 .duration(savedSchedule.getDuration())
                 .name(savedSchedule.getName())
                 .bio(savedSchedule.getBio())

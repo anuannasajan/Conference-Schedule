@@ -25,6 +25,7 @@ public class Schedule {
     private LocalTime time;
     private String duration;
     private String talk;
+    private String day;
     private String name;
     private String bio;
     @ManyToOne
