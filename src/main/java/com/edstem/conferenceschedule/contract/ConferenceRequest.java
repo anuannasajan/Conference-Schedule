@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ConferenceRequest {
-    //@NotNull(message = "Conference name is mandatory")
+
     @NotEmpty(message = "Conference name should not be empty")
     private String name;
 
@@ -29,7 +29,7 @@ public class ConferenceRequest {
     private LocalDate endDate;
     private LocalTime endTime;
 
-    //@NotNull(message = "Conference location is mandatory")
+
     @NotEmpty(message = "Conference location should not be empty")
     private String location;
 }

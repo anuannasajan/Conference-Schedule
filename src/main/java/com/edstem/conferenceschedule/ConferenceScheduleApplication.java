@@ -15,7 +15,7 @@ public class ConferenceScheduleApplication {
 
 	@Bean
 	public ModelMapper modelMapper() {
-		ModelMapper mapper = new ModelMapper();
+		ModelMapper mapper = new   ModelMapper();
 		mapper.getConfiguration()
 				.setFieldMatchingEnabled(true)
 				.setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
