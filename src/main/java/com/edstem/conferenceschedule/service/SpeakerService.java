@@ -74,6 +74,7 @@ public class SpeakerService {
                 .bio(speakerFound.getBio())
                 .build();
     }
+
     public List<SpeakerResponse> viewAllSpeakers(){
         List<Speaker> SpeakerList = speakerRepository.findAll();
         return SpeakerList.stream()

@@ -11,8 +11,11 @@ import com.edstem.conferenceschedule.service.ScheduleService;
 import com.edstem.conferenceschedule.service.SpeakerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,7 +47,7 @@ public class ConferenceController {
         this.speakerService = speakerService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ConferenceResponse> addANewConference(@Valid @RequestBody ConferenceRequest conferenceRequest) {
         ConferenceResponse response = conferenceService.addANewConference(conferenceRequest);
         return ResponseEntity.ok(response);
@@ -101,14 +104,10 @@ public class ConferenceController {
 
 
     @GetMapping("/list-all")
-    public ResponseEntity<List<ConferenceResponse>> listAllConference(
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @RequestParam(defaultValue = "3") int pageSize) {
-
-        List<ConferenceResponse> response = conferenceService.getAllConferences(pageNumber,pageSize);
+    public ResponseEntity<List<ConferenceResponse>> listAllConference() {
+        List<ConferenceResponse> response = conferenceService.getAllConferences();
         return ResponseEntity.ok(response);
     }
-
 
     @PutMapping("/update/{conferenceId}")
     public ResponseEntity<String> updateConferenceById(@PathVariable Long conferenceId,
@@ -126,10 +125,13 @@ public class ConferenceController {
     public ResponseEntity<List<SpeakerResponse>> viewAllSpeakers(){
         return new ResponseEntity<>(speakerService.viewAllSpeakers(), HttpStatus.OK);
     }
-}
 
-
-
+    @GetMapping("/pageable")
+    public Page<ConferenceResponse> getPageable(
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return conferenceService.getPageable(pageable);
+    }
+   }
 
 
 

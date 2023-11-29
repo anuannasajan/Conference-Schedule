@@ -15,6 +15,7 @@ import com.edstem.conferenceschedule.repository.ScheduleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -129,16 +130,8 @@ public class ConferenceService {
 
     }
 
-
-    // public List<ConferenceResponse> getAllConferences() {
-    // return conferenceRepository.findAll().stream()
-    //   .map(conference -> modelMapper.map(conference, ConferenceResponse.class))
-    //  .collect(Collectors.toList());
-//}
-
-    public List<ConferenceResponse> getAllConferences(int pageNumber,int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return conferenceRepository.findAll(pageable).stream()
+    public List<ConferenceResponse> getAllConferences() {
+        return conferenceRepository.findAll().stream()
                 .map(conference -> modelMapper.map(conference, ConferenceResponse.class))
                 .collect(Collectors.toList());
     }
@@ -164,6 +157,10 @@ public class ConferenceService {
         return "Successfully updated the conference with ID " + saved.getId();
     }
 
+    public Page<ConferenceResponse> getPageable(Pageable pageable) {
+        Page<Conference> tickets = conferenceRepository.findAll(pageable);
+        return tickets.map(appList -> modelMapper.map(appList, ConferenceResponse.class));
+    }
 }
 
 
