@@ -1,6 +1,5 @@
-package com.edstem.conferenceschedule.contract;
+package com.edstem.conferenceschedule.contract.response;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 public class ScheduleResponse {
-    private Long id;
+    private Long scheduleId;
     private LocalTime time;
     private String duration;
     private String talk;

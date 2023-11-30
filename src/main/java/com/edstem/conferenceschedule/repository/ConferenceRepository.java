@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConferenceRepository extends JpaRepository<Conference, Long> {
-    public Page<Conference> findAll(Pageable pageable);
+    Page<Conference> findAll(Pageable pageable);
 }
 

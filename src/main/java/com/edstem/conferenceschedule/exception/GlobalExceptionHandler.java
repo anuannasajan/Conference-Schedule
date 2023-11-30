@@ -15,22 +15,25 @@ public class GlobalExceptionHandler {
         String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return ResponseEntity.badRequest().body(errorMessage);
     }
-    @ExceptionHandler(ConferenceNotFoundException.class)
+
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public String handleConferenceNotFoundException(ConferenceNotFoundException ex){
+    public String handleConferenceNotFoundException(EntityNotFoundException ex) {
         return ex.getMessage();
     }
-    @ExceptionHandler(ScheduleNotFoundException.class)
+
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public String handleScheduleNotFoundException(ScheduleNotFoundException ex){
+    public String handleScheduleNotFoundException(EntityNotFoundException ex) {
         return ex.getMessage();
     }
-    @ExceptionHandler(SpeakerNotFoundException.class)
+
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public String handleSpeakerNotFoundException(SpeakerNotFoundException ex){
+    public String handleSpeakerNotFoundException(EntityNotFoundException ex) {
         return ex.getMessage();
     }
 }

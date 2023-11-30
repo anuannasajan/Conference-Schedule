@@ -1,9 +1,6 @@
 package com.edstem.conferenceschedule.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,9 +16,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -30,7 +26,7 @@ import java.util.List;
 public class Conference {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long conferenceId;
     private String name;
     private String description;
     private LocalDate startDate;

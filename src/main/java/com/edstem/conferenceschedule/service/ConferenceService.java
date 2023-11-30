@@ -1,12 +1,9 @@
 package com.edstem.conferenceschedule.service;
 
-import com.edstem.conferenceschedule.contract.ConferenceRequest;
-import com.edstem.conferenceschedule.contract.ConferenceResponse;
-import com.edstem.conferenceschedule.contract.ScheduleRequest;
-import com.edstem.conferenceschedule.contract.ScheduleResponse;
-import com.edstem.conferenceschedule.contract.SpeakerResponse;
-import com.edstem.conferenceschedule.exception.ConferenceNotFoundException;
-import com.edstem.conferenceschedule.exception.ScheduleNotFoundException;
+import com.edstem.conferenceschedule.contract.request.ConferenceRequest;
+import com.edstem.conferenceschedule.contract.request.ScheduleRequest;
+import com.edstem.conferenceschedule.contract.response.ConferenceResponse;
+import com.edstem.conferenceschedule.contract.response.ScheduleResponse;
 import com.edstem.conferenceschedule.model.Conference;
 import com.edstem.conferenceschedule.model.Schedule;
 import com.edstem.conferenceschedule.model.Speaker;
@@ -16,7 +13,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -38,12 +34,11 @@ public class ConferenceService {
         return response;
     }
 
-
     public ConferenceResponse getConferenceById(Long conferenceId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Conference not found"));
         return ConferenceResponse.builder()
-                .id(conference.getId())
+                .conferenceId(conference.getConferenceId())
                 .name(conference.getName())
                 .description(conference.getDescription())
                 .startDate(conference.getStartDate())
@@ -56,7 +51,7 @@ public class ConferenceService {
 
     public String deleteAConferenceById(Long conferenceId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Conference not found"));
         conferenceRepository.delete(conference);
 
         return "Successfully deleted the conference with ID " + conferenceId;
@@ -64,9 +59,9 @@ public class ConferenceService {
 
     public String removeSpeakerFromConferenceScheduleById(Long conferenceId, Long scheduleId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Conference not found"));
 
-        Schedule speakerToRemoveSchedule = conference.getSchedules().stream().filter(schedule -> schedule.getId().equals(scheduleId))
+        Schedule speakerToRemoveSchedule = conference.getSchedules().stream().filter(schedule -> schedule.getScheduleId().equals(scheduleId))
                 .findFirst()
                 .orElse(null);
 
@@ -75,7 +70,7 @@ public class ConferenceService {
         }
         Speaker speakerToRemove = speakerToRemoveSchedule.getSpeaker();
         Schedule updatedScheduleAfterRemove = Schedule.builder()
-                .id(speakerToRemoveSchedule.getId())
+                .scheduleId(speakerToRemoveSchedule.getScheduleId())
                 .time(speakerToRemoveSchedule.getTime())
                 .talk(speakerToRemoveSchedule.getTalk())
                 .speaker(null)
@@ -83,21 +78,21 @@ public class ConferenceService {
         Schedule saved = scheduleRepository.save(updatedScheduleAfterRemove);
         conferenceRepository.save(conference);
 
-        return "Successfully removed the speaker with ID " + speakerToRemove.getId() + "from schedule.";
+        return "Successfully removed the speaker with ID " + speakerToRemove.getSpeakerId() + "from schedule.";
     }
 
     public String updateScheduleById(Long conferenceId, Long scheduleId, ScheduleRequest scheduleRequest) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Conference not found"));
 
-        Schedule schedule = conference.getSchedules().stream().filter(s -> s.getId().equals(scheduleId))
+        Schedule schedule = conference.getSchedules().stream().filter(s -> s.getScheduleId().equals(scheduleId))
                 .findFirst()
                 .orElse(null);
         if (schedule == null) {
-            throw new ScheduleNotFoundException("Schedule not found");
+            throw new EntityNotFoundException("Schedule not found");
         }
         Schedule updated = Schedule.builder()
-                .id(schedule.getId())
+                .scheduleId(schedule.getScheduleId())
                 .talk(scheduleRequest.getTalk())
                 .time(scheduleRequest.getTime())
                 .duration(scheduleRequest.getDuration())
@@ -107,16 +102,17 @@ public class ConferenceService {
                 .build();
         Schedule saved = scheduleRepository.save(updated);
         conferenceRepository.save(conference);
-        return "Successfully updated the schedule with ID " + saved.getId();
+        return "Successfully updated the schedule with ID " + saved.getScheduleId();
     }
+
 
     public List<ScheduleResponse> listAllSchedulesByConferenceId(Long conferenceId) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Conference not found"));
 
         List<ScheduleResponse> responseList = conference.getSchedules().stream()
                 .map(schedule -> ScheduleResponse.builder()
-                        .id(schedule.getId())
+                        .scheduleId(schedule.getScheduleId())
                         .talk(schedule.getTalk())
                         .name(schedule.getName())
                         .bio(schedule.getBio())
@@ -137,13 +133,12 @@ public class ConferenceService {
     }
 
 
-
     public String updateConferenceById(Long conferenceId, ConferenceRequest conferenceRequest) {
         Conference conference = conferenceRepository.findById(conferenceId)
-                .orElseThrow(() -> new ConferenceNotFoundException("Conference not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Conference not found"));
 
         Conference updated = Conference.builder()
-                .id(conference.getId())
+                .conferenceId(conference.getConferenceId())
                 .name(conferenceRequest.getName())
                 .description(conferenceRequest.getDescription())
                 .startDate(conferenceRequest.getStartDate())
@@ -154,7 +149,7 @@ public class ConferenceService {
                 .schedules(conference.getSchedules())
                 .build();
         Conference saved = conferenceRepository.save(updated);
-        return "Successfully updated the conference with ID " + saved.getId();
+        return "Successfully updated the conference with ID " + saved.getConferenceId();
     }
 
     public Page<ConferenceResponse> getPageable(Pageable pageable) {

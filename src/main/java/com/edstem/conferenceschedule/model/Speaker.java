@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Speaker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long speakerId;
     private String name;
     private String bio;
 }

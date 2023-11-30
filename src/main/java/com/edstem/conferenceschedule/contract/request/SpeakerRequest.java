@@ -1,4 +1,4 @@
-package com.edstem.conferenceschedule.contract;
+package com.edstem.conferenceschedule.contract.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -7,20 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ScheduleRequest {
-    @NotEmpty(message = "Talk is mandatory")
-    private String talk;
-    private LocalTime time;
-    private String duration;
-    private String day;
+public class SpeakerRequest {
+    @NotEmpty(message = "Name is mandatory")
     private String name;
     private String bio;
 }
-

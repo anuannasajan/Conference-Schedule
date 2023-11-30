@@ -1,6 +1,5 @@
-package com.edstem.conferenceschedule.contract;
+package com.edstem.conferenceschedule.contract.response;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SpeakerRequest {
-    @NotEmpty(message = "Name is mandatory")
+public class SpeakerResponse {
+    private Long speakerId;
     private String name;
     private String bio;
 }

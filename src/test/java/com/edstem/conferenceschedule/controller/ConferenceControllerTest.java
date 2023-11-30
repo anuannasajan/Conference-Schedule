@@ -1,12 +1,16 @@
 package com.edstem.conferenceschedule.controller;
 
-import com.edstem.conferenceschedule.contract.*;
+import com.edstem.conferenceschedule.contract.request.ConferenceRequest;
+import com.edstem.conferenceschedule.contract.request.ScheduleRequest;
+import com.edstem.conferenceschedule.contract.request.SpeakerRequest;
+import com.edstem.conferenceschedule.contract.response.ConferenceResponse;
+import com.edstem.conferenceschedule.contract.response.ScheduleResponse;
+import com.edstem.conferenceschedule.contract.response.SpeakerResponse;
 import com.edstem.conferenceschedule.service.ConferenceService;
 import com.edstem.conferenceschedule.service.ScheduleService;
 import com.edstem.conferenceschedule.service.SpeakerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,13 +18,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.List;
 import static org.mockito.Mockito.
         when
         ;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.
         delete
         ;
