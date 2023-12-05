@@ -63,8 +63,7 @@ public class ConferenceController {
     @GetMapping("/pageable")
     public Page<ConferenceResponse> getPageable(
             @PageableDefault(sort = "conferenceId", direction = Sort.Direction.DESC) Pageable pageable) {
-        return conferenceService.getPageable(pageable);
-    }
+        return conferenceService.getPageable(pageable);    }
 }
 
 
