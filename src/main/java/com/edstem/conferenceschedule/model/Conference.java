@@ -42,9 +42,8 @@ public class Conference {
     @DateTimeFormat(style = "HH:mm ")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm ")
     private LocalTime endTime;
-
-    private String location;
-    private String codeOfConduct;
+private String location;
+private String codeOfConduct;
 
     @OneToMany
     private List<Schedule> schedules;
